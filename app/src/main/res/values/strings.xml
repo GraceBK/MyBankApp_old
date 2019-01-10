@@ -1,0 +1,13 @@
+<!--
+  ~ Created by Grace BK on 1/10/19 5:48 AM
+  ~
+  ~ Copyright (c) 2019. School project.
+  -->
+
+<resources>
+    <string name="app_name">Bank App</string>
+
+    <string name="title_activity_splashscreen">SplashscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
