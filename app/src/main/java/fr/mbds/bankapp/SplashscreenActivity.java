@@ -13,6 +13,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -20,6 +23,8 @@ import android.view.View;
 public class SplashscreenActivity extends AppCompatActivity {
 
     private static final int AUTO_WAIT_DELAY_MILLIS = 1000;
+
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     /**
      * Some older devices needs a small delay between UI widget updates
@@ -62,7 +67,13 @@ public class SplashscreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashscreenActivity.this, LoginActivity2.class));
+                if (user != null) {
+                    // User is signed in
+                    startActivity(new Intent(SplashscreenActivity.this, MainActivity.class));
+                } else {
+                    // No user is signed in
+                    startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+                }
                 finish();
             }
         }, AUTO_WAIT_DELAY_MILLIS);

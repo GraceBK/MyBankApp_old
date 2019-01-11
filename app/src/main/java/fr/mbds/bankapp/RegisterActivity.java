@@ -68,7 +68,7 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
     public void onBackPressed() {
         super.onBackPressed();
         //showFragment(phoneFragment);
-        startActivity(new Intent(RegisterActivity.this, LoginActivity2.class));
+        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
         finish();
     }
 }
