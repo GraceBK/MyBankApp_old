@@ -4,7 +4,7 @@
   ~ Copyright (c) 2019. School project.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -14,7 +14,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="FullscreenTheme" parent="AppTheme">
+    <style name="FullscreenTheme" parent="CustomByGraceBK">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
@@ -34,5 +34,36 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+
+    <style name="CustomByGraceBK" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--   color for the app bar and other primary UI elements -->
+        <item name="colorPrimary">@color/white1</item>
+        <!--   a darker variant of the primary color, used for
+           the status bar (on Android 5.0+) and contextual app bars -->
+        <item name="colorPrimaryDark">@color/white1</item>
+        <!--   a secondary color for controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/black_overlay</item>
+
+        <item name="android:windowAnimationStyle">@null</item>
+
+        <!--item name="android:windowFullscreen">true</item-->
+        <!--item name="android:windowTranslucentStatus">true</item-->
+        <item name="android:statusBarColor">@color/white1</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+
+
+        <item name="android:windowBackground">@color/white1</item>
+        <item name="android:elevation">0dp</item>
+        <!-- extend the base theme to add styles available only with API level 21+ -->
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
+    </style>
 
 </resources>

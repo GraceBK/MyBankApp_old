@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Grace BK on 1/12/19 2:52 AM
+  ~
+  ~ Copyright (c) 2019. School project.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@android:color/white"/>
+    <item>
+        <bitmap android:src="@drawable/ic_account"
+            android:gravity="center"/>
+    </item>
+
+</layer-list>
