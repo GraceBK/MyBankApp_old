@@ -92,7 +92,7 @@ public class SplashscreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (user != null) {
-                    // User is signed in
+                    // Comptes is signed in
                     Intent iGoToMain = new Intent(SplashscreenActivity.this, MainActivity.class);
                     iGoToMain.putExtra("EXTRA_PAY_VALUE", finalSharedText);
                     startActivity(iGoToMain);

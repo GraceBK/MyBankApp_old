@@ -24,17 +24,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
 import fr.mbds.bankapp.fragment.RegisterFragment;
+import fr.mbds.bankapp.models.Comptes;
 
 public class RegisterActivity extends FragmentActivity implements RegisterFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "[REGISTER]";
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     FrameLayout frameLayout;
 
@@ -51,6 +54,14 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference("comptes");
+        // [END initialize_database_ref]
+
         sharedPref = getSharedPreferences(getString(R.string.pref_user), Context.MODE_PRIVATE);
 
         frameLayout = findViewById(R.id.register_fl);
@@ -58,11 +69,6 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
         if (savedInstanceState == null) {
             showFragment(phoneFragment);
         }
-
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
     }
 
     @Override
@@ -103,7 +109,7 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
                                 .setDisplayName(firstName + " " + lastName)
                                 .build();
 
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        final FirebaseUser user = mAuth.getCurrentUser();
 
 
                         assert user != null;
@@ -111,8 +117,21 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "User profile update",
+                                    Toast.makeText(RegisterActivity.this, "Comptes profile update",
                                             Toast.LENGTH_SHORT).show();
+                                    // Creating new compte node, which returns the unique key value
+                                    // new user node would be /comptes/$compteid/
+                                    String userId = mDatabase.push().getKey();
+
+                                    Comptes comptes = new Comptes(user.getUid(), userId, user.getDisplayName(), user.getEmail(), "");
+
+                                    Log.w(TAG, ""+user.getDisplayName() +"  "+ user.getEmail());
+                                    Log.w(TAG, "--> "+user.getUid()+"  "+ userId);
+
+
+                                    assert userId != null;
+                                    mDatabase.child(user.getUid()).setValue(comptes);
+
 
                                 }
                             }
