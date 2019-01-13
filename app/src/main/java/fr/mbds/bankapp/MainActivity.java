@@ -6,36 +6,93 @@
 
 package fr.mbds.bankapp;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.functions.FirebaseFunctions;
+
+import java.util.Objects;
+
+import fr.mbds.bankapp.fragment.HomeFragment;
+import fr.mbds.bankapp.fragment.PayFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
 
-    TextView test;
+    FrameLayout frameLayout;
+    Fragment fragment = null;
+
+    String PAY_VALUE = "";
+
+    //HomeFragment homeFragment = new  HomeFragment();
+    //PayFragment payFragment = new  PayFragment();
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    fragment = new HomeFragment();
+                    showFragment(fragment);
+                    return true;
+                case R.id.navigation_pay:
+                    fragment = new PayFragment();
+                    showFragment(fragment);
+                    return true;
+            }
+            return showFragment(fragment);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
+        frameLayout = findViewById(R.id.main_frame_layout);
 
-        test = findViewById(R.id.test);
-        test.setText(currentUser.getEmail());
+        PAY_VALUE = getIntent().getStringExtra("EXTRA_PAY_VALUE");
 
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Toast.makeText(this, ""+PAY_VALUE+ " \n " +FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+
+        //if (Objects.equals(PAY_VALUE, "")) {
+            showFragment(new HomeFragment());
+        /*} else {
+            showFragment(new PayFragment());
+        }*/
+
+    }
+
+
+    public boolean showFragment(Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_frame_layout, fragment);
+            transaction.commit();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -50,18 +107,12 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, ProfileActivity.class));
-                return true;
-            case R.id.action_add:
-                FirebaseFunctions mFunctions = FirebaseFunctions.getInstance();
-                mFunctions
-                        .getHttpsCallable("helloWorld")
-                        .call();
-                startActivity(new Intent(this, LoadCreditActivity.class));
+            case R.id.action_logout:
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Grace BK on 1/10/19 2:57 PM
+  ~ Created by Grace BK on 1/12/19 5:28 AM
   ~
   ~ Copyright (c) 2019. School project.
   -->
 
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoadCreditActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.PayFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +23,7 @@
 
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_profile"
+            android:id="@+id/toolbar_pay"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -44,9 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Positionnez l'arrière du téléphone contre votre carte."
+                android:text="Pour effectuer un payement Positionnez l'arrière du téléphone contre votre carte."
                 android:textStyle="bold"
-                android:padding="5dp"/>
+                android:paddingTop="50dp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -57,4 +56,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

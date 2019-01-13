@@ -6,11 +6,13 @@
     <!-- To access Google+ APIs: -->
     <!-- Demande de permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <!-- Demande a Google Play de montrer cette application seulement au mobiles avec NFC -->
-    <uses-feature android:name="android.hardware.nfc" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -29,46 +31,60 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="fr.mbds.bankapp.TRANSACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity" />
+        <activity android:name=".MainActivity" />
+
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity"/>
-
+                android:value=".LoginActivity" />
         </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
+
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".MainActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
-
+                android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".LoadCreditActivity"
+            android:label="Ajout via NFC"
             android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-                <!--data
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <!--
+                    data
                     android:scheme="http"
                     android:host="developper.android.com"
-                    android:pathPrefix="/index.html"/-->
+                    android:pathPrefix="/index.html"/
+                -->
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
     </application>
 

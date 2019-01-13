@@ -13,9 +13,11 @@ import android.nfc.Tag;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class LoadCreditActivity extends AppCompatActivity {
 
@@ -23,6 +25,11 @@ public class LoadCreditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_credit);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         onNewIntent(getIntent());
     }

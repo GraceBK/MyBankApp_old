@@ -40,7 +40,14 @@
                 android:id="@+id/next_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Numéro de téléphone"/>
+                android:hint="Answer"/>
+
+            <EditText
+                android:id="@+id/next_answer2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Answer"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/next_phone_button"

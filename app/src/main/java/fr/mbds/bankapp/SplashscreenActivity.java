@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -65,15 +68,39 @@ public class SplashscreenActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        String sharedText = null;
+
+
+        if (Objects.equals(action, "fr.mbds.bankapp.TRANSACTION") && type != null) {
+            if ("text/plain".equals(type)) {
+                //handleSendText(intent); // Handle text being sent
+                sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                if (sharedText != null) {
+                    Toast.makeText(getApplicationContext(), sharedText, Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            // Handle other intents, such as being started from the home screen
+        }
+
+        final String finalSharedText = sharedText;
         mHideHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (user != null) {
                     // User is signed in
-                    startActivity(new Intent(SplashscreenActivity.this, MainActivity.class));
+                    Intent iGoToMain = new Intent(SplashscreenActivity.this, MainActivity.class);
+                    iGoToMain.putExtra("EXTRA_PAY_VALUE", finalSharedText);
+                    startActivity(iGoToMain);
                 } else {
                     // No user is signed in
-                    startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+                    Intent iGoToLogin = new Intent(SplashscreenActivity.this, LoginActivity.class);
+                    iGoToLogin.putExtra("EXTRA_PAY_VALUE", finalSharedText);
+                    startActivity(iGoToLogin);
                 }
                 finish();
             }

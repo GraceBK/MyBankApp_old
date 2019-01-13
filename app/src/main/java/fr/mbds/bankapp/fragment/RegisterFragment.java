@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import fr.mbds.bankapp.R;
 
@@ -41,6 +42,7 @@ public class RegisterFragment extends Fragment {
 
     private TextView mQuery;
     private EditText mAnswer;
+    private EditText mAnswer2;
     private Button mButtonNext;
 
     private OnFragmentInteractionListener mListener;
@@ -87,25 +89,67 @@ public class RegisterFragment extends Fragment {
 
 
         mAnswer = view.findViewById(R.id.next_answer);
+        mAnswer2 = view.findViewById(R.id.next_answer2);
+        mButtonNext = view.findViewById(R.id.next_phone_button);
+
         if (mParam1 == 1) {
-            mQuery.setText("Quel est votre numéro de mobile ?");
-            mAnswer.setHint("Numéro de téléphone");
+            mQuery.setText("Quel est votre adresse mail ?");
+            mAnswer.setHint("Adresse mail");
+            mAnswer2.setVisibility(View.GONE);
+            mButtonNext.setText(mParam2);
+            mButtonNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!mAnswer.getText().toString().equals("")) {
+                        onButtonMailPressed(true, mParam1, mAnswer.getText().toString().trim());
+                    } else {
+                        Toast.makeText(getContext(), "Veillez entrer une adresse", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         } else if (mParam1 == 2) {
             mQuery.setText("Créer un mot de passe");
             mAnswer.setHint("Mot de passe");
+            mAnswer2.setVisibility(View.GONE);
+            mButtonNext.setText(mParam2);
+            mButtonNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!mAnswer.getText().toString().equals("")) {
+                        onButtonPasswordPressed(true, mParam1, mAnswer.getText().toString().trim());
+                    } else {
+                        Toast.makeText(getContext(), "Veillez entrer un mot de passe", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
         } else if (mParam1 == 3) {
-            mAnswer.setHint("");
+            mQuery.setText("Quel est votre nom ?");
+            mAnswer.setHint("Prénom");
+            mAnswer2.setHint("Nom de famille");
+            mAnswer2.setVisibility(View.VISIBLE);
+            mButtonNext.setText(mParam2);
+            mButtonNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!mAnswer.getText().toString().equals("") && !mAnswer2.getText().toString().equals("")) {
+                        onButtonNamePressed(true, mAnswer.getText().toString().trim(), mAnswer2.getText().toString().trim());
+                    } else {
+                        Toast.makeText(getContext(), "Veillez entrer un nom et prenom", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else if (mParam1 == 4) {
+            mQuery.setText("Terminer la création du compte");
+            mAnswer.setVisibility(View.GONE);
+            mAnswer2.setVisibility(View.GONE);
+            mButtonNext.setText(mParam2);
+            mButtonNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onButtonSignUpPressed(true);
+                }
+            });
         }
-
-        mButtonNext = view.findViewById(R.id.next_phone_button);
-        mButtonNext.setText(mParam2);
-        mButtonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onButtonPhonePressed(true);
-                //Toast.makeText(getContext(), "Suivant", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return view;
     }
@@ -119,15 +163,30 @@ public class RegisterFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPhonePressed(Boolean b) {
+    public void onButtonMailPressed(Boolean b, int id,  String mail) {
         if (mListener != null) {
-            mListener.clickPhoneToPassword(b);
+            mListener.clickMailToPassword(b);
+            mListener.setData(id, mail);
         }
     }
 
-    public void onButtonPasswordPressed(Boolean b) {
+    public void onButtonPasswordPressed(Boolean b, int id, String password) {
         if (mListener != null) {
-            mListener.clickPasswordToUser(b);
+            mListener.clickPasswordToName(b);
+            mListener.setData(id, password);
+        }
+    }
+
+    public void onButtonNamePressed(Boolean b, String firstName, String lastName) {
+        if (mListener != null) {
+            mListener.clickNameToSignUp(b);
+            mListener.setData2(firstName, lastName);
+        }
+    }
+
+    public void onButtonSignUpPressed(Boolean b) {
+        if (mListener != null) {
+            mListener.clickSignUp(b);
         }
     }
 
@@ -162,8 +221,13 @@ public class RegisterFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void clickPhoneToPassword(Boolean b);
-        void clickPasswordToUser(Boolean b);
+        void clickMailToPassword(Boolean b);
+        void clickPasswordToName(Boolean b);
+        void clickNameToSignUp(Boolean b);
+        void clickSignUp(Boolean b);
+
+        void setData(int idFrag, String value);
+        void setData2(String value1, String value2);
     }
 
 }
