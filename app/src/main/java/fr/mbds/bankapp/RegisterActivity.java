@@ -123,7 +123,7 @@ public class RegisterActivity extends FragmentActivity implements RegisterFragme
                                     // new user node would be /comptes/$compteid/
                                     String userId = mDatabase.push().getKey();
 
-                                    Comptes comptes = new Comptes(user.getUid(), userId, user.getDisplayName(), user.getEmail(), "");
+                                    Comptes comptes = new Comptes(user.getUid(), userId, user.getDisplayName(), user.getEmail(), "0");
 
                                     Log.w(TAG, ""+user.getDisplayName() +"  "+ user.getEmail());
                                     Log.w(TAG, "--> "+user.getUid()+"  "+ userId);

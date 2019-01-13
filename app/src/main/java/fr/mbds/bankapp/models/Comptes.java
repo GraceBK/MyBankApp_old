@@ -23,4 +23,16 @@ public class Comptes {
         this.email = email;
         this.money = money;
     }
+
+
+    @Override
+    public String toString() {
+        return "compte : \n{" +
+                "uid : " + uid + "\n" +
+                "id : " + id + "\n" +
+                "name : " + name + "\n" +
+                "email : " + email + "\n" +
+                "money : " + money + "\n" +
+                "}";
+    }
 }
