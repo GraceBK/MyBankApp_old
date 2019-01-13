@@ -75,6 +75,7 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Comptes compte = snapshot.getValue(Comptes.class);
                     assert compte != null;
+                    // TODO : attention il a crache ici apres deconnection
                     if (compte.uid.equals(mAuth.getCurrentUser().getUid())) {
                         Log.w("-------", ""+compte.toString());
                         Log.w("-------", ""+compte);

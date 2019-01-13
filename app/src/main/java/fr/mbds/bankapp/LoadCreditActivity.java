@@ -8,18 +8,19 @@ package fr.mbds.bankapp;
 
 import android.content.Intent;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class LoadCreditActivity extends AppCompatActivity {
+
+    private static final String TAG = "["+LoadCreditActivity.class.getSimpleName()+"]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +40,18 @@ public class LoadCreditActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            // TODO Change image
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMessages != null) {
                 NdefMessage[] messages = new NdefMessage[rawMessages.length];
                 for (int i = 0; i < rawMessages.length; i++) {
                     messages[i] = (NdefMessage) rawMessages[i];
                 }
-
-                Log.w("------>", Arrays.toString(messages));
-
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                Log.w("------>", tag.toString());
+                // Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                NdefRecord record = messages[0].getRecords()[0];
+                byte[] payload = record.getPayload();
+                String text = new String(payload);
+                Log.w(TAG, text);
             }
         }
     }
