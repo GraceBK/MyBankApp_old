@@ -14,6 +14,8 @@ public class Comptes {
     public String email;
     public String money;
 
+    public Comptes() {}
+
     public Comptes(String uid, String id, String name, String email, String money) {
         this.uid = uid;
         this.id = id;

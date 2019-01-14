@@ -33,17 +33,20 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <action android:name="fr.mbds.bankapp.TRANSACTION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity">
@@ -51,11 +54,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login2" />
-
         <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".MainActivity">
@@ -63,7 +64,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".LoadCreditActivity"
             android:label="Ajout via NFC"
@@ -86,6 +86,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <service
+            android:name=".services.MyHostApduService"
+            android:exported="false"
+            android:permission="android.permission.BIND_NFC_SERVICE">
+
+            <intent-filter>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
+            </intent-filter>
+
+            <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
+                android:resource="@xml/apduservice"/>
+
+        </service>
     </application>
 
 </manifest>
