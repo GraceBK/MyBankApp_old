@@ -15,12 +15,23 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
 public class LoadCreditActivity extends AppCompatActivity {
 
     private static final String TAG = "["+LoadCreditActivity.class.getSimpleName()+"]";
+
+    private LinearLayout linearLayout;
+    private LinearLayout linearLayout2;
+    private TextView msg;
+    private Button btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,22 @@ public class LoadCreditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        linearLayout = findViewById(R.id.help_img);
+        linearLayout2 = findViewById(R.id.help_img_validate);
+        msg = findViewById(R.id.see_creadit);
+        btn = findViewById(R.id.valide_add);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!msg.getText().toString().equals("")) {
+                    // TODO : call firebase et save
+                    startActivity(new Intent(LoadCreditActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        });
 
         onNewIntent(getIntent());
     }
@@ -52,6 +79,22 @@ public class LoadCreditActivity extends AppCompatActivity {
                 byte[] payload = record.getPayload();
                 String text = new String(payload);
                 Log.w(TAG, text);
+
+                String delimiter = "\\[\\|\\]\\s*";
+
+                String[] params = text.split(delimiter);
+
+                if (params.length > 1) {
+                    //
+                    linearLayout.setVisibility(View.GONE);
+                    linearLayout2.setVisibility(View.VISIBLE);
+                    msg.setText("Ajout de "+params[1]);
+                } else {
+                    linearLayout.setVisibility(View.VISIBLE);
+                    linearLayout2.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "TAG non valide", Toast.LENGTH_LONG).show();
+                }
+
             }
         }
     }
