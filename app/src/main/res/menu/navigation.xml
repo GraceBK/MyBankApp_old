@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/navigation_pay"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_pay"
         android:title="Pay" />
 
 </menu>

@@ -8,7 +8,6 @@ package fr.mbds.bankapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -23,13 +22,13 @@ public class AccountStorage {
     private static final String PREF_ACCOUNT_NUMBER = "account_id";
 
 
-    public static void setAccout(Context context, String id) {
+    public static void setAccount(Context context, String id) {
         Log.i(TAG, "Sauvegarde du compte : " + id);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putString(PREF_ACCOUNT_NUMBER, id).apply();
     }
 
-    public static String getAccout(Context context) {
+    public static String getAccount(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         return preferences.getString(PREF_ACCOUNT_NUMBER, "");

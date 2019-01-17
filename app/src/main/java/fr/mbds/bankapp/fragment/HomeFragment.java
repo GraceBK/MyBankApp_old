@@ -6,6 +6,7 @@
 
 package fr.mbds.bankapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,20 +70,23 @@ public class HomeFragment extends Fragment {
 
         //mDatabase.child(mAuth.getCurrentUser().getUid());
 
-        final String[] solde = {""};
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        final float[] solde = new float[1];
+
+        Query query = mDatabase.child(mAuth.getCurrentUser().getUid());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //Log.w("-------", ""+dataSnapshot.getValue());
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Comptes compte = snapshot.getValue(Comptes.class);
-                    assert compte != null;
-                    // TODO : attention il a crache ici apres deconnection
-                    if (compte.uid.equals(mAuth.getCurrentUser().getUid())) {
-                        Log.w("-------", ""+compte.toString());
-                        Log.w("-------", ""+compte);
-                        Log.w("-------", ""+mAuth.getCurrentUser().getUid());
+                if (dataSnapshot.exists()) {
+                    Comptes compte = dataSnapshot.getValue(Comptes.class);
+                    Log.i("-------", ""+compte);
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (Objects.equals(snapshot.getKey(), "beforeMoney")) {
+                            Log.i("-------****", ""+snapshot.getValue());
+                        }
+                        assert compte != null;
                         solde[0] = compte.money;
+                        tvMoney.setText(compte.money+"");
                     }
                 }
             }
@@ -91,7 +97,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        tvMoney.setText(solde[0]);
+        //tvMoney.setText(Float.toString(solde[0]));
 
 
         btnAdd = view.findViewById(R.id.left_btn);
