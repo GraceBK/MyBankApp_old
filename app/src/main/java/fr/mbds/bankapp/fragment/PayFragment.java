@@ -6,9 +6,12 @@
 
 package fr.mbds.bankapp.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,8 @@ import android.view.ViewGroup;
 import fr.mbds.bankapp.R;
 
 public class PayFragment extends Fragment {
+
+    private SharedPreferences sharedPref;
 
     public PayFragment() {
         // Required empty public constructor
@@ -30,8 +35,12 @@ public class PayFragment extends Fragment {
 
         Toolbar toolbar = view.findViewById(R.id.toolbar_pay);
         // toolbar.setLogo(R.drawable.ic_account);
-        toolbar.setTitle("243.56");
+
+        sharedPref = getActivity().getSharedPreferences(getString(R.string.pref_user), Context.MODE_PRIVATE);
+        String money = sharedPref.getString(getString(R.string.pref_pay), "0");
+        toolbar.setTitle(money + " £");
         toolbar.setSubtitle("Montant à payer");
+
 
         return view;
     }

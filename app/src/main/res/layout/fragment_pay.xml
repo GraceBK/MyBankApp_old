@@ -39,6 +39,29 @@
             android:gravity="center"
             android:background="#FAFAFA">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/edt_pay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Veillez entrer le montant à payer"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/btn_pay"/>
+
+                <Button
+                    android:id="@+id/btn_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payer"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

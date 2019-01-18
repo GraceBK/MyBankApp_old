@@ -2,14 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="fr.mbds.bankapp">
-
     <!-- To access Google+ APIs: -->
     <!-- Demande de permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.NFC" />
-
-    <!-- Demande a Google Play de montrer cette application seulement au mobiles avec NFC -->
+    <uses-permission android:name="android.permission.NFC" /> <!-- Demande a Google Play de montrer cette application seulement au mobiles avec NFC -->
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -22,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomByGraceBK"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".PayActivity"></activity>
         <activity
             android:name=".SplashscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -46,7 +44,21 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="grace/bk2" />
+                <!--
+                    data
+                    android:scheme="http"
+                    android:host="developper.android.com"
+                    android:pathPrefix="/index.html"/
+                -->
+            </intent-filter>
+        </activity>
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity">

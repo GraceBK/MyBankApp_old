@@ -6,7 +6,10 @@
 
 package fr.mbds.bankapp;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment = null;
 
     String PAY_VALUE = "";
+
+    private SharedPreferences sharedPref;
 
     //HomeFragment homeFragment = new  HomeFragment();
     //PayFragment payFragment = new  PayFragment();
@@ -71,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Toast.makeText(this, ""+PAY_VALUE+ " \n " +FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+
+        sharedPref = getSharedPreferences(getString(R.string.pref_user), Context.MODE_PRIVATE);
+        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.pref_pay), PAY_VALUE);
+        editor.apply();
 
         //if (Objects.equals(PAY_VALUE, "")) {
             showFragment(new HomeFragment());
